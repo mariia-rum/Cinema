@@ -5,8 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#232b40">
   <script>
-    /* Decide before first paint whether the door intro plays: on every
-       visit, except with reduced motion. */
+
     (function (d) {
       d.classList.add('js');
       try {
@@ -25,7 +24,6 @@
   <meta property="og:title" content="It’s All Soderbergh’s Fault - a short film by Alina Hyseva">
   <meta property="og:description" content="A short film about the twenty-four hours you would have to reconstruct from witnesses. Podil, Kyiv, June 2017. In development, produced by EVOS FILM.">
   <meta property="og:url" content="https://evosfilm.com/soderbergh/">
-  <!-- soderbergh-og.jpg is an interim type-only card. Replace it with a 1200×630 crop of the key art (same filename). -->
   <meta property="og:image" content="https://evosfilm.com/assets/soderbergh-og.jpg">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
@@ -118,9 +116,7 @@
         <h2 id="podil-title">Podil</h2>
         <p>This is a story that could only have happened here. Podil, where the bohemians and the Soviet stairwells face each other across the road, where the bar and the police station share a street, where you can drop out of university, get into a fight outside an embassy and steal a police cat in one day and the city won’t even turn its head. Podil isn’t surprised. It has seen worse.</p>
       </div>
-      <!-- The photo surfaces out of the night like a memory: a blurred,
-           colourless copy sits over the sharp one and fades away as the
-           section scrolls into view. See "Podil" in soderbergh.css. -->
+
       <figure class="podil-photo">
         <div class="podil-frame">
           <img class="podil-sharp" src="../assets/podil.jpg" width="1200" height="800" loading="lazy" decoding="async"
@@ -232,23 +228,7 @@
       </div>
     </section>
 
-    <!-- ================================================================
-         OPTIONAL SECTIONS SWITCH - currently OFF
-         ----------------------------------------------------------------
-         Two sections are built but deliberately NOT in this file:
-           1. Why this story (director's statement)
-           2. Danya and Khvylovyi
-         Their markup lives in the separate file
-           PRIVATE_soderbergh-optional-sections.html
-         which is kept OUTSIDE the website folder on purpose: anything in
-         this file (even inside a comment) is public in the page source and
-         in a public GitHub repository.
 
-         To switch a section ON, only after written approval
-         (statement: the director; Danya/Khvylovyi: producer and director),
-         paste its block from that file directly below this comment.
-         To switch it OFF again, delete the block.
-         ================================================================ -->
 
   </main>
 
@@ -262,18 +242,13 @@
       <p><a href="../about/">About the company</a></p>
     </div>
   </footer>
-  <!-- Hero intro: the metro doors open onto Podil. Plays on every visit
-       (unless the page reopens scrolled down). The timeline and the
-       states are documented in assets/css/soderbergh.css.
-       Any scroll, click, tap or key fast-forwards what is left of it, so
-       nobody is made to sit through it, and nothing ever hard-cuts. Reduced
-       motion: the page simply opens at rest. -->
+
   <script>
     (function () {
       var root = document.documentElement;
       var hero = document.getElementById('hero');
-      var FAST = 6;          // fast-forward speed on interaction
-      var MAX_WAIT = 2000;   // longest we hold the dark frame for images
+      var FAST = 6;          
+      var MAX_WAIT = 2000;  
       var started = false, finished = false, sequence = [];
       var events = ['wheel', 'touchstart', 'pointerdown', 'keydown', 'scroll'];
 
@@ -282,7 +257,7 @@
           window[on ? 'addEventListener' : 'removeEventListener'](e, skip, { passive: true });
         });
       }
-      // Straight to the resting frame, no sequence.
+
       function rest() {
         started = finished = true;
         root.classList.remove('doors-intro', 'doors-go');
@@ -295,7 +270,7 @@
         hero.classList.add('done');
         listen(false);
       }
-      // The finite animations of this intro (not the endless drift/cue loops).
+
       function introAnimations() {
         if (!document.getAnimations) return [];
         return document.getAnimations().filter(function (a) {
@@ -316,8 +291,7 @@
         }
         window.setTimeout(finish, 4500); // safety net
       }
-      // Visitor wants in: before the start, go straight to rest; once
-      // running, speed up whatever is left so it still lands gracefully.
+
       function skip() {
         if (!started) { rest(); return; }
         if (finished) return;
@@ -332,8 +306,7 @@
 
       listen(true);
 
-      // Start only when the doors photo and the view behind them are decoded
-      // (so nothing draws half-loaded) and the tab is actually visible.
+
       var urls = ['.door-l', '.view'].map(function (sel) {
         var m = /url\(["']?(.*?)["']?\)/.exec(getComputedStyle(hero.querySelector(sel)).backgroundImage);
         return m && m[1];
@@ -365,9 +338,7 @@
       window.setTimeout(go, MAX_WAIT);
     })();
   </script>
-  <!-- Podil photo: browsers with scroll-linked animations (Chrome, Safari)
-       handle it in CSS alone. Others get a one-off reveal when the section
-       comes on screen. -->
+
   <script>
     (function () {
       var s = document.querySelector('.podil');
