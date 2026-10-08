@@ -1,0 +1,8 @@
+# macOS folder metadata
+.DS_Store
+
+# Source files kept locally, not used by the site (too large to publish)
+assets/the_shot_at_success.jpg
+
+# Never publish private material (see README: optional sections)
+PRIVATE_*

@@ -1,0 +1,642 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>EVOS FILM - film production, Kyiv, and Ukrainian film distribution in Germany</title>
+  <meta name="description" content="EVOS FILM is a Kyiv-based film company working in two directions: production (development, production and co-production) and distribution, bringing Ukrainian films to cinemas across Germany as Ukrajina Cinema.">
+
+  <!-- Replace evosfilm.com with the live address, e.g. https://evosfilm.github.io/site (no trailing slash). See README. -->
+  <link rel="canonical" href="https://evosfilm.com/">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="EVOS FILM">
+  <meta property="og:title" content="EVOS FILM - production and distribution">
+  <meta property="og:description" content="Kyiv-based film production and co-production, and Ukrainian film distribution in Germany (Ukrajina Cinema).">
+  <meta property="og:url" content="https://evosfilm.com/">
+  <meta property="og:image" content="https://evosfilm.com/assets/og-evos.jpg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="EVOS FILM, independent film production, Kyiv, Ukraine">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="EVOS FILM - production and distribution">
+  <meta name="twitter:description" content="Kyiv-based film production and co-production, and Ukrainian film distribution in Germany (Ukrajina Cinema).">
+  <meta name="twitter:image" content="https://evosfilm.com/assets/og-evos.jpg">
+  <meta name="twitter:image:alt" content="EVOS FILM, independent film production, Kyiv, Ukraine">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=IBM+Plex+Sans:wght@300;400;500&display=swap">
+  <link rel="preload" as="image" href="assets/podil.jpg" fetchpriority="high">
+  <link rel="stylesheet" href="assets/css/site.css">
+  <link rel="stylesheet" href="assets/css/home.css">
+
+  <!-- ============================================================
+       Awards-disclosure component (used on the "How Is Katia?" entry).
+       Scoped to .awards-disclosure / .trailer-link so it can't clash
+       with anything in site.css. If you'd rather keep all styles in
+       one file, this whole block can be pasted into assets/css/site.css
+       instead - nothing here depends on being inline.
+       ============================================================ -->
+  <style>
+    .film-extra { margin-top: 0.85rem; }
+
+    .trailer-link { margin: 0 0 0.6rem; }
+    .trailer-link a {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-weight: 500;
+      text-decoration: none;
+      border-bottom: 1px solid currentColor;
+      padding-bottom: 0.05rem;
+    }
+    .trailer-link a:hover { opacity: 0.75; }
+    .trailer-link svg { flex: none; }
+
+    .awards-disclosure { margin: 0; }
+
+    .awards-disclosure summary {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.6rem;
+      cursor: pointer;
+      list-style: none;
+      font-weight: 500;
+      padding: 0.15rem 0;
+    }
+    .awards-disclosure summary::-webkit-details-marker { display: none; }
+    .awards-disclosure summary::marker { content: ""; }
+
+    .awards-disclosure .laurel {
+      display: inline-flex;
+      color: var(--muted);
+      flex: none;
+    }
+    .awards-disclosure .laurel--right { transform: scaleX(-1); }
+
+    .awards-disclosure .chevron {
+      color: var(--muted);
+      transition: transform 0.15s ease;
+      flex: none;
+    }
+    .awards-disclosure[open] .chevron { transform: rotate(180deg); }
+
+    .awards-disclosure summary:hover .awards-count,
+    .awards-disclosure summary:focus-visible .awards-count {
+      text-decoration: underline;
+      text-decoration-thickness: 1px;
+      text-underline-offset: 0.2em;
+    }
+
+    .awards-list {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+    }
+    .awards-list li {
+      display: grid;
+      grid-template-columns: 6.4rem 1fr;
+      gap: 0.2rem 1rem;
+      padding-block: 0.65rem;
+      border-bottom: 1px solid var(--rule);
+      font-size: 0.95rem;
+      line-height: 1.45;
+    }
+    .award-status { color: var(--muted); }
+    .award-source {
+      display: block;
+      margin-top: 0.15rem;
+      color: var(--muted);
+      font-size: 0.88rem;
+    }
+
+    .awards-groups {
+      margin-top: 0.9rem;
+      max-width: 34rem;
+      border-top: 1px solid var(--rule);
+    }
+    .award-group h4 {
+      font-family: var(--sans);
+      font-size: 0.98rem;
+      font-weight: 500;
+      margin: 1.4rem 0 0.2rem;
+    }
+    .award-group:first-child h4 { margin-top: 1rem; }
+    .award-group .awards-list li:last-child { border-bottom: 1px solid var(--rule); }
+
+    @media (max-width: 26rem) {
+      .awards-list li { grid-template-columns: 1fr; gap: 0.1rem; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .awards-disclosure .chevron { transition: none; }
+    }
+
+    /* ---- Trailer click-to-reveal preview ---- */
+    .trailer-preview-toggle {
+      appearance: none;
+      background: none;
+      border: 0;
+      padding: 0;
+      margin-left: 0.85rem;
+      font: inherit;
+      font-size: 0.92rem;
+      color: var(--muted);
+      text-decoration: underline;
+      text-decoration-style: dotted;
+      text-underline-offset: 0.2em;
+      cursor: pointer;
+    }
+    .trailer-preview-toggle:hover { color: var(--ink); }
+
+    .trailer-frame {
+      margin-top: 0.85rem;
+      max-width: 34rem;
+      aspect-ratio: 16 / 9;
+      background: #14151a;
+    }
+    .trailer-frame iframe {
+      width: 100%;
+      height: 100%;
+      border: 0;
+      display: block;
+    }
+  </style>
+</head>
+<body class="home">
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <header class="site-header">
+    <div class="wrap">
+      <a class="logo" href="./" aria-current="page"><img src="assets/evos-logo-white.png" width="360" height="172" alt="EVOS FILM"></a>
+      <nav class="site-nav" aria-label="Main">
+        <ul>
+          <li><a href="#production">Production</a></li>
+          <li><a href="#distribution">Distribution</a></li>
+          <li><a href="about/">About</a></li>
+          <li><a href="mailto:omatat@evos.kiev.ua">Contact</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main">
+    <h1 class="visually-hidden">EVOS FILM: film production in Kyiv and Ukrainian film distribution in Germany</h1>
+
+    <!-- The two sides of the company (layout after Olha's mockup). Each half
+         links to its section below. Styles: assets/css/home.css -->
+    <nav class="split" aria-label="What we do">
+      <a class="panel panel--production" href="#production">
+        <span class="panel-bg" aria-hidden="true"></span>
+        <span class="panel-body">
+          <span class="panel-title">Production</span>
+          <span class="panel-rule" aria-hidden="true"></span>
+          <span class="panel-sub">Development · Production · Co‑production</span>
+          <span class="panel-arrow" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 18 18" aria-hidden="true"><path d="M2 9h13M10 4l5 5-5 5" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+        </span>
+      </a>
+      <a class="panel panel--distribution" href="#distribution">
+        <span class="panel-bg" aria-hidden="true"></span>
+        <span class="panel-body">
+          <span class="panel-title">Distribution</span>
+          <span class="panel-rule" aria-hidden="true"></span>
+          <span class="panel-sub">Ukrainian film distribution in Germany</span>
+          <span class="panel-arrow" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 18 18" aria-hidden="true"><path d="M2 9h13M10 4l5 5-5 5" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+        </span>
+      </a>
+    </nav>
+
+    <!-- ===================== PRODUCTION ===================== -->
+    <section class="production" id="production" aria-labelledby="production-title">
+      <div class="wrap side-intro">
+        <p class="eyebrow">Production</p>
+        <h2 id="production-title">Films and projects</h2>
+        <p class="lede">EVOS FILM is a Kyiv-based production company founded by two partners, each with nearly twenty years in film, television and advertising. We make quality genre films for local audiences and work with the most ambitious directors of the new generation of Ukrainian auteur cinema.</p>
+      </div>
+
+      <div class="wrap films" id="films">
+        <h3 class="section-title">Films</h3>
+        <ul class="film-list">
+        <li class="film">
+          <img src="assets/how-is-katia-poster.jpg" width="800" height="1200" loading="lazy"
+               alt="Poster for How Is Katia?">
+          <div>
+            <h3>How Is Katia?</h3>
+            <p class="original" lang="uk">Як там Катя?</p>
+            <dl class="facts">
+              <dt>Director</dt><dd>Christina Tynkevych</dd>
+              <dt>Format</dt><dd>Feature</dd>
+              <dt>Year</dt><dd>2022 · 101 min</dd>
+              <dt>Status</dt><dd>Premiered at Locarno Film Festival, Concorso Cineasti del presente</dd>
+            </dl>
+            <p class="line">Anna has just taken on a mortgage in dreams of a better life with her daughter Katia. Instead, a turn of events makes Anna face a dilemma that will change her personal moral borders in a society that hasn’t got any.</p>
+            <p class="line">Supported by the Ukrainian State Film Agency and the Ukrainian Institute. International sales: Coccinelle Film Sales. Selected for more than 30 festivals.</p>
+
+            <div class="film-extra">
+              <div class="trailer" data-video-id="Q9cHenyPmjU">
+                <p class="trailer-link">
+                  <a href="https://www.youtube.com/watch?v=Q9cHenyPmjU" target="_blank" rel="noopener">
+                    <svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true"><path d="M2 1.2 12.5 7 2 12.8Z" fill="currentColor"/></svg>
+                    Watch the trailer
+                  </a>
+                  <button type="button" class="trailer-preview-toggle" aria-expanded="false">Preview here</button>
+                </p>
+                <div class="trailer-frame" hidden></div>
+              </div>
+
+              <details class="awards-disclosure">
+                <summary>
+                  <span class="laurel" aria-hidden="true">
+                    <svg width="16" height="24" viewBox="0 0 20 30">
+                      <path d="M14 29C8 24 5.5 17 6 10 6.3 6 8 2.5 11 1" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/>
+                      <g fill="currentColor">
+                        <ellipse rx="3.1" ry="1.5" transform="translate(9.5,3) rotate(35)"/>
+                        <ellipse rx="3.3" ry="1.6" transform="translate(7.3,7.5) rotate(50)"/>
+                        <ellipse rx="3.4" ry="1.65" transform="translate(6,12.5) rotate(65)"/>
+                        <ellipse rx="3.4" ry="1.65" transform="translate(6.3,17.5) rotate(80)"/>
+                        <ellipse rx="3.3" ry="1.6" transform="translate(7.6,22.3) rotate(98)"/>
+                        <ellipse rx="3" ry="1.5" transform="translate(10,26.5) rotate(115)"/>
+                      </g>
+                    </svg>
+                  </span>
+                  <span class="awards-count">9 wins &amp; 14 nominations</span>
+                  <span class="laurel laurel--right" aria-hidden="true">
+                    <svg width="16" height="24" viewBox="0 0 20 30">
+                      <path d="M14 29C8 24 5.5 17 6 10 6.3 6 8 2.5 11 1" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/>
+                      <g fill="currentColor">
+                        <ellipse rx="3.1" ry="1.5" transform="translate(9.5,3) rotate(35)"/>
+                        <ellipse rx="3.3" ry="1.6" transform="translate(7.3,7.5) rotate(50)"/>
+                        <ellipse rx="3.4" ry="1.65" transform="translate(6,12.5) rotate(65)"/>
+                        <ellipse rx="3.4" ry="1.65" transform="translate(6.3,17.5) rotate(80)"/>
+                        <ellipse rx="3.3" ry="1.6" transform="translate(7.6,22.3) rotate(98)"/>
+                        <ellipse rx="3" ry="1.5" transform="translate(10,26.5) rotate(115)"/>
+                      </g>
+                    </svg>
+                  </span>
+                  <svg class="chevron" width="12" height="8" viewBox="0 0 12 8" aria-hidden="true">
+                    <path d="M1 1.5 6 6.5 11 1.5" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+                </summary>
+
+                <div class="awards-groups">
+
+                  <div class="award-group">
+                    <h4>Locarno Film Festival - 2022</h4>
+                    <ul class="awards-list">
+                      <li><span class="award-status">Win</span><span>Best Actress - Filmmakers of the Present<span class="award-source">Anastasiya Karpenko</span></span></li>
+                      <li><span class="award-status">Win</span><span>Special Jury Prize - Filmmakers of the Present<span class="award-source">Christina Tynkevych</span></span></li>
+                      <li><span class="award-status">Nomination</span><span>Golden Leopard - Filmmakers of the Present<span class="award-source">Christina Tynkevych</span></span></li>
+                    </ul>
+                  </div>
+
+                  <div class="award-group">
+                    <h4>Ukrainian Film Academy Awards - 2024</h4>
+                    <ul class="awards-list">
+                      <li><span class="award-status">Win</span><span>Golden Dzyga, Best Actress<span class="award-source">Anastasiya Karpenko</span></span></li>
+                      <li><span class="award-status">Nomination</span><span>Golden Dzyga, Best Film<span class="award-source">Christina Tynkevych (director), Olha Matat, Vlad Dudko, Sergei Konnov (producers)</span></span></li>
+                      <li><span class="award-status">Nomination</span><span>Golden Dzyga, Best Actress in a Supporting Role<span class="award-source">Tatyana Krulikovskaya</span></span></li>
+                      <li><span class="award-status">Nomination</span><span>Golden Dzyga, Best Sound<span class="award-source">Serhiy Stepansky</span></span></li>
+                    </ul>
+                  </div>
+
+                  <div class="award-group">
+                    <h4>CinEast - 2022</h4>
+                    <ul class="awards-list">
+                      <li><span class="award-status">Win</span><span>Critics’ Prize - Best Feature Film<span class="award-source">Christina Tynkevych</span></span></li>
+                      <li><span class="award-status">Nomination</span><span>Grand Prix - Best Feature Film<span class="award-source">Christina Tynkevych</span></span></li>
+                    </ul>
+                  </div>
+
+                  <div class="award-group">
+                    <h4>Ukrainian Film Critics Awards “Kinokolo” - 2022</h4>
+                    <ul class="awards-list">
+                      <li><span class="award-status">Nomination</span><span>Discovery of the Year<span class="award-source">Christina Tynkevych</span></span></li>
+                      <li><span class="award-status">Nomination</span><span>Best Actress<span class="award-source">Anastasiya Karpenko</span></span></li>
+                    </ul>
+                  </div>
+
+                  <div class="award-group">
+                    <h4>Come and Review - 2023</h4>
+                    <ul class="awards-list">
+                      <li><span class="award-status">Win</span><span>Golden Palacinka, Best Supporting Performance<span class="award-source">Tatyana Krulikovskaya</span></span></li>
+                      <li><span class="award-status">Nomination</span><span>Golden Palacinka, Best Lead Actress<span class="award-source">Anastasiya Karpenko</span></span></li>
+                    </ul>
+                  </div>
+
+                  <div class="award-group">
+                    <h4>Cork International Film Festival - 2022</h4>
+                    <ul class="awards-list">
+                      <li><span class="award-status">Win</span><span>Youth Jury Award - Feature Film<span class="award-source">Christina Tynkevych</span></span></li>
+                    </ul>
+                  </div>
+
+                  <div class="award-group">
+                    <h4>Molodist Kyiv International Film Festival - 2023</h4>
+                    <ul class="awards-list">
+                      <li><span class="award-status">Win</span><span>Scythian Deer - National Competition: Full-Length Films<span class="award-source">Christina Tynkevych, director</span></span></li>
+                    </ul>
+                  </div>
+
+                  <div class="award-group">
+                    <h4>Festival del Cinema Europeo - 2022</h4>
+                    <ul class="awards-list">
+                      <li><span class="award-status">Win</span><span>Special Jury Award - Golden Olive Tree Competition<span class="award-source">Christina Tynkevych, director</span></span></li>
+                    </ul>
+                  </div>
+
+                  <div class="award-group">
+                    <h4>Dream City - Rivne International Film Festival - 2024</h4>
+                    <ul class="awards-list">
+                      <li><span class="award-status">Win</span><span>Grand Prix<span class="award-source">Christina Tynkevych, director</span></span></li>
+                    </ul>
+                  </div>
+
+                  <div class="award-group">
+                    <h4>São Paulo International Film Festival - 2022</h4>
+                    <ul class="awards-list">
+                      <li><span class="award-status">Nomination</span><span>New Directors Competition<span class="award-source">Christina Tynkevych</span></span></li>
+                    </ul>
+                  </div>
+
+                  <div class="award-group">
+                    <h4>Thessaloniki Film Festival - 2022</h4>
+                    <ul class="awards-list">
+                      <li><span class="award-status">Nomination</span><span>Golden Alexander - Meet the Neighbors Competition<span class="award-source">Christina Tynkevych</span></span></li>
+                    </ul>
+                  </div>
+
+                  <div class="award-group">
+                    <h4>Bangkok World Film Festival - 2022</h4>
+                    <ul class="awards-list">
+                      <li><span class="award-status">Nomination</span><span>Best Film - Lotus Award Competition<span class="award-source">Christina Tynkevych</span></span></li>
+                    </ul>
+                  </div>
+
+                  <div class="award-group">
+                    <h4>Odesa International Film Festival - 2022</h4>
+                    <ul class="awards-list">
+                      <li><span class="award-status">Nomination</span><span>Golden Duke - National Competition Program<span class="award-source">Christina Tynkevych</span></span></li>
+                    </ul>
+                  </div>
+
+                  <div class="award-group">
+                    <h4>Seville European Film Festival - 2022</h4>
+                    <ul class="awards-list">
+                      <li><span class="award-status">Nomination</span><span>Best Film - Extraordinary Stories<span class="award-source">Christina Tynkevych</span></span></li>
+                    </ul>
+                  </div>
+
+                  <div class="award-group">
+                    <h4>Mykolaichuk OPEN Audience Film Festival - 2023</h4>
+                    <ul class="awards-list">
+                      <li><span class="award-status">Nomination</span><span>Festival Audience Prize - International Feature Competition<span class="award-source">Christina Tynkevych, director</span></span></li>
+                    </ul>
+                  </div>
+
+                </div>
+              </details>
+            </div>
+          </div>
+        </li>
+
+        <li class="film">
+          <img src="assets/my-magical-world-poster.jpg" width="800" height="1200" loading="lazy"
+               alt="Poster for My Magical World">
+          <div>
+            <h3>My Magical World</h3>
+            <dl class="facts">
+              <dt>Director</dt><dd>Elvin Adigozel</dd>
+              <dt>Format</dt><dd>Feature, drama</dd>
+              <dt>Year</dt><dd>2025 · 109 min</dd>
+              <dt>Status</dt><dd>World premiere at the 25th goEast Festival of Central and Eastern European Film; Ukrainian premiere at Odesa International Film Festival 2025</dd>
+            </dl>
+            <p class="line">Co-production: Azerbaijan, Ukraine, Cyprus. EVOS FILM is the Ukrainian co-producer.</p>
+            <p class="line">Two lifelong friends and bandmates face a tough choice between fame, happiness and loyalty to their childhood dreams. As ambition drives them apart, they discover the true cost of success may be more than they’re willing to pay.</p>
+          </div>
+        </li>
+        </ul>
+
+        <h3 class="section-title subsection-title">In development</h3>
+        <ul class="film-list">
+        <li class="film">
+          <img src="assets/all-clear-poster.jpg" width="800" height="1200" loading="lazy"
+               alt="Poster for All Clear">
+          <div>
+            <h3>All Clear</h3>
+            <p class="original" lang="uk">Відбій повітряної тривоги</p>
+            <dl class="facts">
+              <dt>Director</dt><dd>Christina Tynkevych</dd>
+              <dt>Genre</dt><dd>Drama, romance · 100 min</dd>
+              <dt>Status</dt><dd>Financing · expected 2027</dd>
+              <dt>Co-producers</dt><dd>Fiction Park (Germany, NRW), SAMSA (Luxembourg)</dd>
+              <dt>Supported by</dt><dd>Less is More, EAVE Producers Workshop, Netflix grant, Oxbelly</dd>
+            </dl>
+            <p class="line">Kyiv, 2022, the first three months of Russia’s full-scale invasion. Tina and Yuri, a young couple, struggle with the new reality around them and the choice it forces on them: flee to safety, or stay and help.</p>
+          </div>
+        </li>
+
+        <li class="film">
+          <a href="soderbergh/" tabindex="-1" aria-hidden="true">
+            <img src="assets/soderbergh-poster.jpg" width="800" height="1200" loading="lazy"
+                 alt="Working poster for It’s All Soderbergh’s Fault: the doors of a Kyiv metro carriage, the Dnipro at sunset through its windows.">
+          </a>
+          <div>
+            <h3><a href="soderbergh/">It’s All Soderbergh’s Fault</a></h3>
+            <p class="original" lang="uk">В усьому винен Содерберг</p>
+            <dl class="facts">
+              <dt>Director</dt><dd>Alina Hyseva</dd>
+              <dt>Format</dt><dd>Short fiction, dark comedy</dd>
+              <dt>Status</dt><dd>In development · shooting June 2027</dd>
+            </dl>
+            <p class="line">Solia, nineteen, wakes up in a Kyiv police station with no memory of the day before.</p>
+          </div>
+        </li>
+
+        <li class="film">
+        
+          <img src="assets/shot-at-success-poster.jpg" width="800" height="1200" loading="lazy"
+               alt="Poster for The Shot at Success: young people in present-day Kyiv and soldiers of 1918 share one street in front of St Sophia’s bell tower.">
+          <div>
+            <h3>The Shot at Success</h3>
+            <p class="original" lang="uk">Замах на успіх</p>
+            <dl class="facts">
+              <dt>Writer, director</dt><dd>Sergiy Kulybyshev</dd>
+              <dt>Genre</dt><dd>Ironic biopic, dramedy · 100 min</dd>
+              <dt>Status</dt><dd>Script development · expected 2028</dd>
+              <dt>Supported by</dt><dd>MIDPOINT Intensive Ukraine</dd>
+            </dl>
+            <p class="line">In a modern-day reimagining of the chaos of 1918, an approval-addicted former Russian general, Skoropadskyi, tries to forge a Ukrainian state, only to discover that true leadership demands the ultimate sacrifice: his ego.</p>
+          </div>
+        </li>
+
+        <li class="film">
+          <img src="assets/teura.jpeg" width="800" height="1200" loading="lazy"
+                 alt="Key art for Teura.">
+          <div>
+            <h3>Teura. Between the Sun and the Sand</h3>
+            <p class="original" lang="uk">Теура. Між сонцем і піском</p>
+            <dl class="facts">
+              <dt>Writer</dt><dd>Olena Morentsova</dd>
+              <dt>Genre</dt><dd>Romantic historical drama · 100 min</dd>
+              <dt>Status</dt><dd>Script development · expected 2029</dd>
+              <dt>Countries</dt><dd>Ukraine, France</dd>
+              <dt>Supported by</dt><dd>TFL Extended</dd>
+            </dl>
+            <p class="line">A young Ukrainian woman, Sofia Yablonska, sets off for Morocco determined to prove she can become an international journalist in a world that keeps such work for men. A perilous journey deep into the desert reveals another culture, and her true calling.</p>
+          </div>
+        </li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- ===================== DISTRIBUTION ===================== -->
+    <section class="distribution" id="distribution" aria-labelledby="distribution-title">
+      <div class="wrap side-intro">
+        <p class="eyebrow">Distribution</p>
+        <h2 id="distribution-title"><img class="uc-logo" src="assets/ukrajina-cinema/logo-white.png" width="520" height="238" alt="Ukrajina Cinema"></h2>
+        <p class="lede">Ukrajina Cinema is a Ukrainian film distribution initiative in Germany, run by EVOS FILM. We bring contemporary Ukrainian films to cinemas across Germany, working directly with cinemas, cultural institutions, festivals and Ukrainian communities.</p>
+        <ul class="uc-figures">
+          <li><strong>400+</strong><span>commercial screenings in the past year</span></li>
+          <li><strong>100+</strong><span>German cities</span></li>
+        </ul>
+      </div>
+
+      <div class="wrap">
+        <h3 class="section-title">In German cinemas</h3>
+        <ul class="uc-films">
+        <li class="uc-film">
+          <figure class="uc-poster">
+            <span class="uc-poster-bg" aria-hidden="true" style="background-image: url('assets/ukrajina-cinema/rodychi.jpg')"></span>
+            <img src="assets/ukrajina-cinema/rodychi.jpg" width="640" height="800" loading="lazy" decoding="async" alt="Poster for The Relatives">
+          </figure>
+          <h3>The Relatives</h3>
+          <p class="original" lang="uk">Родичі</p>
+          <p class="uc-meta"><span>Comedy</span><span>90 min</span><span>2026</span></p>
+          <p class="uc-meta">Directed by Andrii Chereshnia</p>
+          <p>Baba Nadia turns eighty, and her family is already dividing up the inheritance: her house in a village outside Kyiv. Her granddaughter brings a new sofa, her son a headstone, and the whole village watches to see who outwits whom.</p>
+        </li>
+        <li class="uc-film">
+          <figure class="uc-poster">
+            <span class="uc-poster-bg" aria-hidden="true" style="background-image: url('assets/ukrajina-cinema/krashanka.jpg')"></span>
+            <img src="assets/ukrajina-cinema/krashanka.jpg" width="640" height="800" loading="lazy" decoding="async" alt="Poster for Krashanka 2.0. The Quantum Paradox">
+          </figure>
+          <h3>Krashanka 2.0. The Quantum Paradox</h3>
+          <p class="original" lang="uk">Крашанка 2.0. Квантовий парадокс</p>
+          <p class="uc-meta"><span>Family comedy, fantasy</span><span>92 min</span><span>2025</span></p>
+          <p class="uc-meta">Directed by Taras Dudar</p>
+          <p>When Ivan Zabiiaka learns that his son is not at the front but in a military hospital, he sets off across the country in an old van with his home-built Quantum Paradox Machine, hoping to change the past and stop the war.</p>
+        </li>
+        <li class="uc-film">
+          <figure class="uc-poster">
+            <span class="uc-poster-bg" aria-hidden="true" style="background-image: url('assets/ukrajina-cinema/kuzma.jpg')"></span>
+            <img src="assets/ukrajina-cinema/kuzma.jpg" width="640" height="800" loading="lazy" decoding="async" alt="Poster for Kuzma: Terribly Funny">
+          </figure>
+          <h3>Kuzma: Terribly Funny</h3>
+          <p class="original" lang="uk">Кузьма: Страшно веселий</p>
+          <p class="uc-meta"><span>Documentary</span><span>133 min</span><span>2026</span></p>
+          <p class="uc-meta">Directed by Artem Hryhorian</p>
+          <p>The life of Andrii Kuzmenko, frontman of Skryabin, loved by millions and truly known by few, told through archives that have never been seen before.</p>
+        </li>
+        <li class="uc-film">
+          <figure class="uc-poster">
+            <span class="uc-poster-bg" aria-hidden="true" style="background-image: url('assets/ukrajina-cinema/office-of-magical-forces.jpg')"></span>
+            <img src="assets/ukrajina-cinema/office-of-magical-forces.jpg" width="640" height="800" loading="lazy" decoding="async" alt="Poster for Office of Magical Forces">
+          </figure>
+          <h3>Office of Magical Forces</h3>
+          <p class="original" lang="uk">Хрещатик 48/2</p>
+          <p class="uc-meta"><span>Family fantasy, comedy</span><span>91 min</span><span>2026</span></p>
+          <p class="uc-meta">Directed by Dmytro Avdieiev</p>
+          <p>Eleven-year-olds Yurko and Mia stumble on a secret way into Otherworld Kyiv, a hidden realm that has existed since the year 482, right in the middle of the modern city.</p>
+        </li>
+        <li class="uc-film">
+          <figure class="uc-poster">
+            <span class="uc-poster-bg" aria-hidden="true" style="background-image: url('assets/ukrajina-cinema/on-drive.jpg')"></span>
+            <img src="assets/ukrajina-cinema/on-drive.jpg" width="640" height="800" loading="lazy" decoding="async" alt="Poster for On Drive">
+          </figure>
+          <h3>On Drive</h3>
+          <p class="original" lang="uk">На драйві</p>
+          <p class="uc-meta"><span>Action, adventure</span><span>115 min</span><span>2026</span></p>
+          <p class="uc-meta">Directed by Artem Lytvynenko</p>
+          <p>In frontline Kharkiv, a group of friends find expensive cars abandoned in a shopping centre closed by the war, and start racing. Every run is faster, riskier, and could be their last.</p>
+        </li>
+        <li class="uc-film">
+          <figure class="uc-poster">
+            <span class="uc-poster-bg" aria-hidden="true" style="background-image: url('assets/ukrajina-cinema/nu-mam.jpg')"></span>
+            <img src="assets/ukrajina-cinema/nu-mam.jpg" width="640" height="799" loading="lazy" decoding="async" alt="Poster for Nu Mam">
+          </figure>
+          <h3>Nu Mam</h3>
+          <p class="original" lang="uk">Ну мам</p>
+          <p class="uc-meta"><span>Family comedy</span><span>90 min</span><span>2026</span></p>
+          <p class="uc-meta">Directed by Oleh Borshchevskyi</p>
+          <p>Interwoven stories of mothers and their children, from childhood to adult life: a warm comedy about love, independence and acceptance.</p>
+        </li>
+        <li class="uc-film">
+          <figure class="uc-poster">
+            <span class="uc-poster-bg" aria-hidden="true" style="background-image: url('assets/ukrajina-cinema/when-will-you-get-divorced.jpg')"></span>
+            <img src="assets/ukrajina-cinema/when-will-you-get-divorced.jpg" width="640" height="801" loading="lazy" decoding="async" alt="Poster for When Will You Get Divorced?">
+          </figure>
+          <h3>When Will You Get Divorced?</h3>
+          <p class="original" lang="uk">Коли ти розлучишся?</p>
+          <p class="uc-meta"><span>Comedy, adventure</span><span>86 min</span><span>2026</span></p>
+          <p class="uc-meta">Directed by Oleksii Komarovskyi</p>
+          <p>At her dream wedding, former con artist Lora’s groom vanishes mid-ceremony, just as a legendary diamond goes missing. She and her friend Ksenia set out to find him.</p>
+        </li>
+        <li class="uc-film">
+          <figure class="uc-poster">
+            <span class="uc-poster-bg" aria-hidden="true" style="background-image: url('assets/ukrajina-cinema/trial-period.jpg')"></span>
+            <img src="assets/ukrajina-cinema/trial-period.jpg" width="640" height="800" loading="lazy" decoding="async" alt="Poster for Trial Period">
+          </figure>
+          <h3>Trial Period</h3>
+          <p class="original" lang="uk">Випробувальний термін</p>
+          <p class="uc-meta"><span>Romantic comedy</span><span>90 min</span><span>2026</span></p>
+          <p class="uc-meta">Directed by Iryna Hromozda</p>
+          <p>Polina, a businessman’s glamorous daughter, lands a one-month trial at an advertising agency, competing for a single job with Roman, who sees the world very differently.</p>
+        </li>
+        </ul>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="wrap">
+      <p class="name">EVOS FILM</p>
+      <p>Kyiv, Ukraine</p>
+      <p><a href="mailto:omatat@evos.kiev.ua">omatat@evos.kiev.ua</a></p>
+      <p><a href="https://www.instagram.com/evos.film/" rel="noopener">Instagram</a></p>
+      <p><a href="https://www.facebook.com/evosfilmukraine" rel="noopener">Facebook</a></p>
+      <p><a href="about/">About the company</a></p>
+    </div>
+  </footer>
+  <!-- Click-to-reveal trailer preview. Nothing from YouTube loads until
+       someone clicks "Preview here" - the link above always works on its
+       own and needs no script. -->
+  <script>
+    document.querySelectorAll('.trailer-preview-toggle').forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        var wrap = btn.closest('.trailer');
+        var frame = wrap.querySelector('.trailer-frame');
+        var id = wrap.dataset.videoId;
+        var isOpen = btn.getAttribute('aria-expanded') === 'true';
+        if (isOpen) {
+          frame.hidden = true;
+          frame.innerHTML = '';
+          btn.setAttribute('aria-expanded', 'false');
+          btn.textContent = 'Preview here';
+        } else {
+          var iframe = document.createElement('iframe');
+          iframe.src = 'https://www.youtube-nocookie.com/embed/' + id + '?rel=0';
+          iframe.title = 'Trailer';
+          iframe.loading = 'lazy';
+          iframe.allow = 'accelerometer; encrypted-media; gyroscope; picture-in-picture';
+          iframe.allowFullscreen = true;
+          frame.innerHTML = '';
+          frame.appendChild(iframe);
+          frame.hidden = false;
+          btn.setAttribute('aria-expanded', 'true');
+          btn.textContent = 'Hide preview';
+        }
+      });
+    });
+  </script>
+</body>
+</html>

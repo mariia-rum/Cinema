@@ -1,0 +1,673 @@
+/* It's All Soderbergh's Fault - film page.
+   Loaded after site.css. The page moves from night (top) to morning (bottom).
+   Palette from the film's visual concept. */
+
+.film-soderbergh {
+  --bleached-sand: #efe9d8;
+  --vanilla-custard: #e4d4b9;
+  --pale-gold: #c4aa82;
+  --warm-taupe: #9a8775;
+  --amber-flash: #e9c83c;
+  --steel-blue: #8ea2b6;
+  --dark-slate: #41525f;
+  --night-blue: #232b40;
+  --burnt-sienna: #9e4a24;
+  --terracotta: #ce7b5f;
+
+  background: var(--night-blue);
+  color: var(--bleached-sand);
+}
+
+.visually-hidden {
+  position: absolute !important;
+  width: 1px; height: 1px;
+  margin: -1px; padding: 0;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* ---------- Grounds ---------- */
+
+.night {
+  background: var(--night-blue);
+  color: var(--bleached-sand);
+  --focus: var(--amber-flash);
+  --muted: var(--pale-gold);           /* 6.6:1 on Night Blue */
+}
+.dusk {
+  background: var(--dark-slate);
+  color: var(--bleached-sand);
+  --focus: var(--amber-flash);
+  --muted: var(--vanilla-custard);     /* 6.2:1 on Dark Slate */
+}
+.morning {
+  background: var(--bleached-sand);
+  color: var(--night-blue);
+  --focus: var(--night-blue);
+  --muted: var(--dark-slate);          /* 6.4:1 on Bleached Sand */
+  --accent: var(--burnt-sienna);       /* 5.0:1 on Bleached Sand */
+}
+.night :focus-visible, .dusk :focus-visible, .morning :focus-visible { outline-color: var(--focus); }
+
+.film-soderbergh .skip-link { background: var(--amber-flash); color: var(--night-blue); }
+.film-soderbergh .site-footer { border-top-color: rgba(35, 43, 64, 0.2); }
+
+.band { padding-block: var(--space); }
+
+.band h2 {
+  font-size: clamp(2rem, 5vw, 3.25rem);
+  margin-bottom: 2rem;
+}
+
+/* ---------- Hero: doors open, camera carries you through ----------
+
+   Timeline (seconds). Everything animates transform and opacity only,
+   so the whole sequence runs on the GPU compositor with no repaints.
+
+   0.00  fade up from the dark of the carriage
+   0.10  the train brakes: the carriage sways and settles
+   0.85  the doors unlock (a small pop apart), hold, then slide open
+   1.10  daylight spills through the widening gap
+   1.75  the camera walks through the doorway; focus racks from the
+         doors to the city beyond
+   2.45  title, original title and line arrive in a stagger, then the nav
+   ~3.8  at rest; the view keeps drifting very slowly
+
+   Any scroll, click, tap or key fast-forwards the remaining sequence
+   (see the script at the bottom of soderbergh/index.html). */
+
+/* The page header floats over the hero here so the intro is truly
+   full-screen. A top scrim keeps the nav readable on the bright sky. */
+.film-soderbergh .site-header {
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  z-index: 5;
+  background: linear-gradient(to bottom, rgba(22, 27, 37, 0.72), rgba(22, 27, 37, 0));
+}
+
+.hero {
+  --wall: #161b25;
+  --ease-out: cubic-bezier(.16, 1, .3, 1);   /* long, soft landing */
+  position: relative;
+  height: 100vh;
+  height: 100svh;
+  min-height: 34rem;
+  overflow: hidden;
+  background: var(--wall);
+  isolation: isolate;
+}
+
+/* The view beyond the doors: a sharp layer plus a pre-blurred copy on
+   top. Fading the soft copy out is the focus pull; the blur itself is
+   never animated. */
+.world {
+  position: absolute;
+  inset: -5%;
+  transform: scale(1.06);
+  will-change: transform;
+}
+.view {
+  position: absolute;
+  inset: 0;
+  background: url("../soderbergh-key.jpg") center 58%/cover no-repeat;
+  filter: blur(1.2px) saturate(1.15) brightness(0.92);
+}
+.view-soft {
+  filter: blur(18px) saturate(1.1) brightness(0.95);
+  opacity: 0;
+  will-change: opacity;
+}
+
+/* A brief wash of warm daylight as you step out of the dark carriage. */
+.flare {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  background: radial-gradient(ellipse 70% 60% at 50% 45%, rgba(255, 222, 170, 0.55), rgba(255, 222, 170, 0) 70%);
+  opacity: 0;
+}
+
+.shade {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background: linear-gradient(
+    to bottom,
+    rgba(35, 43, 64, 0.1) 0%,
+    rgba(35, 43, 64, 0.18) 38%,
+    rgba(35, 43, 64, 0.82) 78%,
+    var(--night-blue) 100%
+  );
+}
+
+.hero-text {
+  position: absolute;
+  left: 0; right: 0; bottom: 0;
+  z-index: 2;
+  padding: 0 max(6vw, 24px) calc(max(9vh, 52px) + env(safe-area-inset-bottom, 0px));
+  color: var(--bleached-sand);
+}
+.hero-text h1 {
+  font-size: clamp(2.6rem, 8.5vw, 6.2rem);
+  line-height: 0.98;
+  letter-spacing: -0.02em;
+  max-width: 14ch;
+  text-shadow: 0 2px 30px rgba(26, 33, 51, 0.45);
+}
+.hero-text .original {
+  font-family: var(--serif);
+  font-size: clamp(1.1rem, 3vw, 1.6rem);
+  color: var(--amber-flash);
+  margin: 0.9rem 0 0;
+}
+.hero-text .hero-line {
+  font-family: var(--serif);
+  font-style: italic;
+  font-size: clamp(1.05rem, 2.4vw, 1.3rem);
+  line-height: 1.5;
+  max-width: 40ch;
+  color: var(--vanilla-custard);
+  margin-top: 1.3rem;
+}
+
+/* Scroll hint: a thin amber line with a light travelling down it. */
+.cue {
+  position: absolute;
+  left: 50%;
+  bottom: calc(18px + env(safe-area-inset-bottom, 0px));
+  z-index: 2;
+  width: 1px;
+  height: 38px;
+  overflow: hidden;
+  background: rgba(233, 200, 60, 0.25);
+}
+.cue::after {
+  content: "";
+  position: absolute;
+  left: 0; right: 0; top: 0;
+  height: 14px;
+  background: linear-gradient(to bottom, rgba(233, 200, 60, 0), rgba(233, 200, 60, 0.95));
+  transform: translateY(-14px);
+}
+
+/* The carriage: the metro doors photo (soderbergh-doors.jpg, 1010×1352)
+   split down the middle into two panels. The doorway is sized to the
+   photo's exact aspect so it never distorts. Each panel carries the whole
+   photo at 200% of its own width, anchored left or right, so together
+   they show the photo seamlessly. The doorway clips its contents, so each
+   door disappears into the wall pocket beside it; the wall is the
+   doorway's box-shadow. The carriage clips to the screen, which keeps its
+   GPU layer small even while it scales up. */
+.carriage {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  display: none;
+  overflow: hidden;
+  pointer-events: none;
+  will-change: transform, opacity;
+}
+.rig { display: grid; place-items: center; width: 100%; height: 100%; }
+.doorway {
+  position: relative;
+  overflow: hidden;
+  width: min(100vw, calc(100vh * 1010 / 1352));
+  width: min(100vw, calc(100svh * 1010 / 1352));
+  aspect-ratio: 1010 / 1352;
+  box-shadow: 0 0 0 100vmax var(--wall);
+}
+/* Recessed inner edge: the doors slide into shadow. */
+.doorway::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+  box-shadow: inset 0 0 0 2px rgba(255, 255, 255, 0.05), inset 0 0 60px rgba(0, 0, 0, 0.55);
+}
+/* Daylight pouring through the gap, behind the doors. */
+.spill {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse 45% 70% at 50% 50%, rgba(255, 226, 180, 0.42), rgba(255, 226, 180, 0) 72%);
+  opacity: 0;
+}
+.door {
+  position: absolute;
+  top: 0; bottom: 0;
+  width: 50%;
+  background: #2b3340 url("../soderbergh-doors.jpg") no-repeat;
+  background-size: 200% 100%;
+  will-change: transform;
+}
+.door-l { left: 0; background-position: 0 0; }
+.door-r { right: 0; background-position: 100% 0; }
+
+/* Fade up from the dark of the carriage (and hide the doors while their
+   photo is still loading). */
+.veil {
+  position: absolute;
+  inset: 0;
+  z-index: 4;
+  display: none;
+  background: var(--wall);
+  pointer-events: none;
+}
+
+/* ---------- Playback states ----------
+   html.doors-intro set in <head> when the intro will play (every visit,
+                  except reduced motion). Before it starts: dark veil
+                  over closed doors, text and nav hidden.
+   html.doors-go  the sequence has started (drives the nav fade-in).
+   .hero.play     sequence running; .done is added when it finishes.
+   .hero.still    no intro: straight to the resting frame, drift only.
+   No JS at all:  static resting frame, no doors. */
+
+.doors-intro .carriage, .doors-intro .veil { display: grid; }
+.doors-intro .hero:not(.play) .hero-text,
+.doors-intro .hero:not(.play) .cue,
+.doors-intro .film-soderbergh .site-header { opacity: 0; }
+.doors-intro .hero:not(.play) .view-soft { opacity: 1; }
+.doors-intro .hero:not(.play) .shade { opacity: 0; }
+.doors-intro .hero:not(.play) .world { transform: scale(1); }
+
+.play .veil     { animation: hero-fade-out 0.7s ease-out both; }
+.play .rig      { animation: hero-brake 0.75s cubic-bezier(.3, .6, .4, 1) 0.1s both; }
+.play .door-l   { animation: hero-door-l 1.3s 0.85s both; }
+.play .door-r   { animation: hero-door-r 1.3s 0.85s both; }
+.play .spill    { animation: hero-spill 1.4s ease-out 1.05s both; }
+.play .carriage { animation: hero-through 1.35s cubic-bezier(.7, 0, .3, 1) 1.75s both; }
+.play .view-soft { animation: hero-focus 1.5s cubic-bezier(.4, 0, .2, 1) 1.85s both; }
+.play .flare    { animation: hero-flare 1.6s ease-in-out 1.95s both; }
+.play .shade    { animation: hero-fade-in 1.3s ease-out 2.25s both; }
+.play .world {
+  animation:
+    hero-push 2.3s cubic-bezier(.33, 0, .15, 1) 1.75s both,
+    hero-drift 28s ease-in-out 4.05s infinite alternate;
+}
+.play .hero-text h1         { animation: hero-rise 1.1s var(--ease-out) 2.45s both; }
+.play .hero-text .original  { animation: hero-rise 1.1s var(--ease-out) 2.6s both; }
+.play .hero-text .hero-line { animation: hero-rise 1.1s var(--ease-out) 2.72s both; }
+.play .cue                  { animation: hero-fade-in 0.8s ease-out 3.2s both; }
+.play .cue::after           { animation: hero-cue 2.4s cubic-bezier(.5, 0, .5, 1) 4s infinite; }
+.doors-go .film-soderbergh .site-header { animation: hero-fade-in 0.9s ease-out 2.85s both; }
+
+.done .carriage, .done .veil,
+.still .carriage, .still .veil { display: none; }
+
+.still .world { animation: hero-drift 28s ease-in-out infinite alternate; }
+.still .cue::after { animation: hero-cue 2.4s cubic-bezier(.5, 0, .5, 1) 1s infinite; }
+
+/* The train brakes: a sway forward, a small rebound, then still. */
+@keyframes hero-brake {
+  0%   { transform: translateX(0); }
+  35%  { transform: translateX(7px); }
+  70%  { transform: translateX(-2px); }
+  100% { transform: translateX(0); }
+}
+/* Pneumatic doors: unlock with a small pop apart, a beat, then slide
+   into the wall, easing to a soft stop. */
+@keyframes hero-door-l {
+  0%   { transform: translateX(0);      animation-timing-function: cubic-bezier(.3, 0, .4, 1); }
+  11%  { transform: translateX(-1.4%);  animation-timing-function: linear; }
+  17%  { transform: translateX(-1.4%);  animation-timing-function: cubic-bezier(.55, 0, .15, 1); }
+  100% { transform: translateX(-101%); }
+}
+@keyframes hero-door-r {
+  0%   { transform: translateX(0);      animation-timing-function: cubic-bezier(.3, 0, .4, 1); }
+  11%  { transform: translateX(1.4%);   animation-timing-function: linear; }
+  17%  { transform: translateX(1.4%);   animation-timing-function: cubic-bezier(.55, 0, .15, 1); }
+  100% { transform: translateX(101%); }
+}
+@keyframes hero-spill {
+  0%   { opacity: 0; }
+  45%  { opacity: 1; }
+  100% { opacity: 0.35; }
+}
+/* The doorway rushes past the camera; it stays solid until it is well
+   outside the frame's centre, then dissolves. */
+@keyframes hero-through {
+  0%   { transform: scale(1);    opacity: 1; }
+  55%  { opacity: 1; }
+  100% { transform: scale(2.5);  opacity: 0; }
+}
+/* The city comes a little closer as you step through (parallax: far
+   slower than the doorway), then settles. */
+@keyframes hero-push {
+  from { transform: scale(1); }
+  to   { transform: scale(1.06); }
+}
+@keyframes hero-focus {
+  from { opacity: 1; }
+  to   { opacity: 0; }
+}
+@keyframes hero-flare {
+  0%   { opacity: 0; }
+  35%  { opacity: 1; }
+  100% { opacity: 0; }
+}
+@keyframes hero-drift {
+  from { transform: scale(1.06) translate(0, 0); }
+  to   { transform: scale(1.1) translate(-1.5%, -1%); }
+}
+@keyframes hero-rise {
+  from { opacity: 0; transform: translateY(18px); }
+  to   { opacity: 1; transform: none; }
+}
+@keyframes hero-fade-in  { from { opacity: 0; } to { opacity: 1; } }
+@keyframes hero-fade-out { from { opacity: 1; } to { opacity: 0; } }
+@keyframes hero-cue {
+  0%   { transform: translateY(-14px); }
+  60%  { transform: translateY(38px); }
+  100% { transform: translateY(38px); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero *, .hero *::after, .film-soderbergh .site-header { animation: none !important; }
+  .carriage, .veil { display: none !important; }
+  .hero .hero-text, .hero .cue, .hero .shade,
+  .film-soderbergh .site-header { opacity: 1 !important; }
+  .hero .view-soft { opacity: 0 !important; }
+  .hero .world { transform: scale(1.06) !important; }
+}
+
+/* ---------- Logline + key facts (night) ---------- */
+
+.logline-grid {
+  display: grid;
+  gap: 3rem 4rem;
+}
+@media (min-width: 58rem) {
+  .logline-grid { grid-template-columns: 1.4fr 1fr; align-items: start; }
+}
+.logline p {
+  font-family: var(--serif);
+  font-size: clamp(1.3rem, 2.4vw, 1.6rem);
+  line-height: 1.45;
+  max-width: 38ch;
+}
+
+.key-facts {
+  display: grid;
+  grid-template-columns: max-content 1fr;
+  gap: 0;
+  margin: 0;
+  border-top: 1px solid rgba(239, 233, 216, 0.25);
+}
+.key-facts dt, .key-facts dd {
+  padding-block: 0.7rem;
+  border-bottom: 1px solid rgba(239, 233, 216, 0.25);
+}
+.key-facts dt { color: var(--muted); padding-right: 1.5rem; }
+.key-facts dd { margin: 0; }
+
+/* ---------- Podil (night) ---------- */
+
+.podil p {
+  font-family: var(--serif);
+  font-size: clamp(1.3rem, 2.6vw, 1.75rem);
+  line-height: 1.45;
+  max-width: 34ch;
+}
+/* The Podil photo is not a framed picture: it surfaces out of the night
+   like a memory being reconstructed. Every edge dissolves into Night
+   Blue with eased (not linear) fades, so no line ever shows. As the section scrolls in, a blurred,
+   colourless copy fades off the sharp photo (the memory "develops"), the
+   photo eases from slightly too close to rest, then keeps a slow parallax
+   drift. Scrolling back up reverses it.
+
+   Only opacity and transform are animated (the blur is static on its own
+   layer), so it stays smooth. Scroll-linked where supported; elsewhere a
+   one-off timed reveal (script at the bottom of the page); reduced
+   motion shows the finished photo. */
+
+.podil {
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+  view-timeline: --podil block;
+}
+.podil-text { position: relative; z-index: 1; }
+
+.podil-photo {
+  margin: 0;
+  position: relative;
+  aspect-ratio: 1 / 1;
+  margin-top: calc(var(--space) * -0.2);
+  margin-bottom: calc(var(--space) * -1);  /* runs into the next section's edge of night */
+  pointer-events: none;
+  /* Feather every edge: the intersection of a vertical and a horizontal fade. */
+  -webkit-mask-image:
+    linear-gradient(to bottom, rgba(0,0,0,0.0) 0.0%, rgba(0,0,0,0.074) 3.7%, rgba(0,0,0,0.259) 7.3%, rgba(0,0,0,0.5) 11.0%, rgba(0,0,0,0.741) 14.7%, rgba(0,0,0,0.926) 18.3%, rgba(0,0,0,1.0) 22.0%, rgba(0,0,0,1.0) 70.0%, rgba(0,0,0,0.926) 75.0%, rgba(0,0,0,0.741) 80.0%, rgba(0,0,0,0.5) 85.0%, rgba(0,0,0,0.259) 90.0%, rgba(0,0,0,0.074) 95.0%, rgba(0,0,0,0.0) 100.0%),
+    linear-gradient(to right, rgba(0,0,0,0.0) 0.0%, rgba(0,0,0,0.074) 2.3%, rgba(0,0,0,0.259) 4.7%, rgba(0,0,0,0.5) 7.0%, rgba(0,0,0,0.741) 9.3%, rgba(0,0,0,0.926) 11.7%, rgba(0,0,0,1.0) 14.0%, rgba(0,0,0,1.0) 86.0%, rgba(0,0,0,0.926) 88.3%, rgba(0,0,0,0.741) 90.7%, rgba(0,0,0,0.5) 93.0%, rgba(0,0,0,0.259) 95.3%, rgba(0,0,0,0.074) 97.7%, rgba(0,0,0,0.0) 100.0%);
+  -webkit-mask-composite: source-in;
+  mask-image:
+    linear-gradient(to bottom, rgba(0,0,0,0.0) 0.0%, rgba(0,0,0,0.074) 3.7%, rgba(0,0,0,0.259) 7.3%, rgba(0,0,0,0.5) 11.0%, rgba(0,0,0,0.741) 14.7%, rgba(0,0,0,0.926) 18.3%, rgba(0,0,0,1.0) 22.0%, rgba(0,0,0,1.0) 70.0%, rgba(0,0,0,0.926) 75.0%, rgba(0,0,0,0.741) 80.0%, rgba(0,0,0,0.5) 85.0%, rgba(0,0,0,0.259) 90.0%, rgba(0,0,0,0.074) 95.0%, rgba(0,0,0,0.0) 100.0%),
+    linear-gradient(to right, rgba(0,0,0,0.0) 0.0%, rgba(0,0,0,0.074) 2.3%, rgba(0,0,0,0.259) 4.7%, rgba(0,0,0,0.5) 7.0%, rgba(0,0,0,0.741) 9.3%, rgba(0,0,0,0.926) 11.7%, rgba(0,0,0,1.0) 14.0%, rgba(0,0,0,1.0) 86.0%, rgba(0,0,0,0.926) 88.3%, rgba(0,0,0,0.741) 90.7%, rgba(0,0,0,0.5) 93.0%, rgba(0,0,0,0.259) 95.3%, rgba(0,0,0,0.074) 97.7%, rgba(0,0,0,0.0) 100.0%);
+  mask-composite: intersect;
+}
+.podil-frame {
+  position: absolute;
+  inset: -3% -2%;   /* small overhang so the parallax never reveals an edge */
+  will-change: transform;
+}
+.podil-frame img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 45% 55%;   /* the skyline band: rooftops, the wheel, the river */
+}
+.podil-sharp { filter: saturate(1.05) brightness(1.1); }
+/* The not-yet-remembered version: soft, drained of colour, sunk into night. */
+.podil-soft {
+  filter: blur(22px) saturate(0.3) brightness(0.55);
+  /* Same size and position as the sharp photo, so the fade reads as a
+     focus pull, not a ghost. The frame overhangs the feathered mask, so
+     the blur's soft rim is never seen. */
+  opacity: 0;
+  will-change: opacity;
+}
+
+/* Wide screens: the photo runs off the right edge of the screen (the
+   screen edge is its only straight edge); its left side dissolves slowly
+   under the end of the paragraph. */
+@media (min-width: 52rem) {
+  .podil { display: flex; align-items: center; }
+  .podil-photo {
+    position: absolute;
+    top: 0; right: 0; bottom: 0;
+    width: 62vw;
+    height: auto;
+    aspect-ratio: auto;
+    margin: 0;
+    -webkit-mask-image:
+      linear-gradient(to bottom, rgba(0,0,0,0.0) 0.0%, rgba(0,0,0,0.074) 3.3%, rgba(0,0,0,0.259) 6.7%, rgba(0,0,0,0.5) 10.0%, rgba(0,0,0,0.741) 13.3%, rgba(0,0,0,0.926) 16.7%, rgba(0,0,0,1.0) 20.0%, rgba(0,0,0,1.0) 68.0%, rgba(0,0,0,0.926) 73.0%, rgba(0,0,0,0.741) 78.0%, rgba(0,0,0,0.5) 83.0%, rgba(0,0,0,0.259) 88.0%, rgba(0,0,0,0.074) 93.0%, rgba(0,0,0,0.0) 98.0%),
+      linear-gradient(to right, rgba(0,0,0,0.0) 0.0%, rgba(0,0,0,0.074) 8.0%, rgba(0,0,0,0.259) 16.0%, rgba(0,0,0,0.5) 24.0%, rgba(0,0,0,0.741) 32.0%, rgba(0,0,0,0.926) 40.0%, rgba(0,0,0,1.0) 48.0%, #000 100%);
+    mask-image:
+      linear-gradient(to bottom, rgba(0,0,0,0.0) 0.0%, rgba(0,0,0,0.074) 3.3%, rgba(0,0,0,0.259) 6.7%, rgba(0,0,0,0.5) 10.0%, rgba(0,0,0,0.741) 13.3%, rgba(0,0,0,0.926) 16.7%, rgba(0,0,0,1.0) 20.0%, rgba(0,0,0,1.0) 68.0%, rgba(0,0,0,0.926) 73.0%, rgba(0,0,0,0.741) 78.0%, rgba(0,0,0,0.5) 83.0%, rgba(0,0,0,0.259) 88.0%, rgba(0,0,0,0.074) 93.0%, rgba(0,0,0,0.0) 98.0%),
+      linear-gradient(to right, rgba(0,0,0,0.0) 0.0%, rgba(0,0,0,0.074) 8.0%, rgba(0,0,0,0.259) 16.0%, rgba(0,0,0,0.5) 24.0%, rgba(0,0,0,0.741) 32.0%, rgba(0,0,0,0.926) 40.0%, rgba(0,0,0,1.0) 48.0%, #000 100%);
+  }
+}
+
+/* Scroll-linked version: progress follows the section through the viewport. */
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .podil-soft {
+      animation: podil-develop linear both;
+      animation-timeline: --podil;
+      animation-range: entry 15% cover 50%;
+    }
+    .podil-frame {
+      animation: podil-drift linear both;
+      animation-timeline: --podil;
+      animation-range: cover 0% cover 100%;
+    }
+    .podil-text {
+      animation: podil-rise linear both;
+      animation-timeline: --podil;
+      animation-range: entry 25% cover 42%;
+    }
+  }
+}
+@keyframes podil-develop {
+  from { opacity: 1; }
+  to   { opacity: 0; }
+}
+@keyframes podil-drift {
+  from { transform: scale(1.06) translateY(2.5%); }
+  45%  { transform: scale(1) translateY(0); }
+  to   { transform: scale(1) translateY(-2.5%); }
+}
+@keyframes podil-rise {
+  from { opacity: 0; transform: translateY(2rem); }
+  to   { opacity: 1; transform: none; }
+}
+
+/* Fallback (no scroll timelines, e.g. Firefox): the script adds
+   .podil-reveal, then .is-in once the section is on screen. */
+.podil-reveal .podil-soft  { opacity: 1; transition: opacity 2.2s cubic-bezier(.4, 0, .2, 1) 0.2s; }
+.podil-reveal .podil-frame { transform: scale(1.06) translateY(2.5%); transition: transform 2.8s cubic-bezier(.16, 1, .3, 1); }
+.podil-reveal .podil-text  { opacity: 0; transform: translateY(2rem); transition: opacity 1.2s ease-out, transform 1.4s cubic-bezier(.16, 1, .3, 1); }
+.podil-reveal.is-in .podil-soft  { opacity: 0; }
+.podil-reveal.is-in .podil-frame { transform: none; }
+.podil-reveal.is-in .podil-text  { opacity: 1; transform: none; }
+
+@media (prefers-reduced-motion: reduce) {
+  .podil-soft { opacity: 0 !important; transition: none !important; }
+  .podil-frame, .podil-text { transform: none !important; opacity: 1 !important; transition: none !important; }
+}
+
+/* ---------- Characters (dusk) ---------- */
+
+.characters-grid {
+  display: grid;
+  gap: 3rem 4rem;
+}
+@media (min-width: 52rem) {
+  .characters-grid { grid-template-columns: 1fr 1fr; }
+}
+.character h3 {
+  font-size: clamp(1.8rem, 3.5vw, 2.4rem);
+  margin-bottom: 0.25rem;
+}
+.character .age { color: var(--muted); margin-bottom: 1rem; }
+.character p { max-width: var(--measure); }
+
+/* ---------- Night to morning ---------- */
+
+.daybreak {
+  height: clamp(10rem, 30vh, 18rem);
+  background: linear-gradient(
+    to bottom,
+    var(--dark-slate) 0%,
+    var(--steel-blue) 45%,
+    var(--vanilla-custard) 80%,
+    var(--bleached-sand) 100%
+  );
+}
+
+/* ---------- The look (morning) ---------- */
+
+.look .intro-text { max-width: var(--measure); }
+.look .intro-text p:first-child {
+  font-family: var(--serif);
+  font-size: clamp(1.35rem, 2.6vw, 1.75rem);
+  line-height: 1.4;
+}
+.references { color: var(--muted); margin-top: 1.5rem; }
+.references cite { font-style: italic; color: var(--night-blue); }
+
+.palette { margin-top: clamp(3rem, 7vw, 5rem); }
+.palette h3 {
+  font-family: var(--sans);
+  font-size: 1rem;
+  font-weight: 500;
+  margin-bottom: 1.25rem;
+}
+.swatches {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 1.5rem 0.4rem;
+}
+@media (min-width: 48rem) {
+  .swatches { grid-template-columns: repeat(10, 1fr); }
+}
+.swatch-chip {
+  height: clamp(5rem, 22vw, 14rem);
+  background: var(--c);
+}
+.swatch-chip.is-sand { box-shadow: inset 0 0 0 1px rgba(35, 43, 64, 0.18); }
+.swatch-label {
+  font-size: 0.78rem;
+  line-height: 1.35;
+  margin-top: 0.5rem;
+  overflow-wrap: anywhere;
+}
+.swatch-label strong { display: block; font-weight: 500; }
+.swatch-label span { display: block; color: var(--muted); }
+
+/* ---------- Team (morning) ---------- */
+
+.team-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 3rem 2.5rem;
+  grid-template-columns: repeat(auto-fill, minmax(15rem, 1fr));
+}
+.member img {
+  width: 100%;
+  aspect-ratio: 4 / 5;
+  object-fit: cover;
+  background: var(--vanilla-custard);
+  margin-bottom: 1rem;
+}
+.member h3 { font-size: 1.6rem; }
+.member .role { color: var(--accent); font-weight: 500; margin: 0.2rem 0 0.75rem; }
+.member p { font-size: 0.97rem; }
+
+.dream-cast-note {
+  display: inline-block;
+  font-weight: 500;
+  color: var(--night-blue);
+  border: 1.5px solid var(--burnt-sienna);
+  padding: 0.35rem 0.6rem;
+  margin: 0 0 0.9rem;
+  font-size: 0.92rem;
+}
+
+/* ---------- Where the film stands (morning) ---------- */
+
+.stands { border-top: 1px solid rgba(35, 43, 64, 0.18); }
+.stands h2 { color: var(--accent); }
+.stands .body { max-width: var(--measure); }
+.stands .body p:first-child {
+  font-family: var(--serif);
+  font-size: clamp(1.35rem, 2.6vw, 1.75rem);
+  line-height: 1.4;
+}
+.contact-line { margin-top: 2rem; padding-top: 1.25rem; border-top: 2px solid var(--accent); }
+.contact-line a { color: var(--accent); font-weight: 500; }
+
+.previous { border-top: 1px solid rgba(35, 43, 64, 0.18); }
+.previous h2 { font-size: clamp(1.6rem, 3.5vw, 2.2rem); margin-bottom: 1rem; }
+.previous a { color: var(--accent); font-weight: 500; }
+
+/* Optional sections (off by default - see comment in soderbergh/index.html) */
+.statement blockquote {
+  margin: 0;
+  max-width: var(--measure);
+  font-family: var(--serif);
+  font-size: clamp(1.3rem, 2.4vw, 1.6rem);
+  line-height: 1.45;
+}
+.statement figcaption { margin-top: 1.25rem; color: var(--muted); }
